@@ -1,0 +1,86 @@
+# https://taskfile.dev
+
+version: '3'
+
+silent: true
+
+vars:
+  UTILS_REPO: git@github.com:bth-csharp/utils.git
+  ARTIFACT_REPO: https://github.com/bth-csharp/csharp-abcd25
+  ARTIFACT_REPO_FILES: https://raw.githubusercontent.com/bth-csharp/csharp-abcd25/main/
+
+tasks:
+  download-tests:
+    desc: "Get tests for the specified kmom, e.g. kmom01. Run with 'task download-tests -- kmom01'"
+    preconditions:
+      - sh: '[ "$(pwd)" != */{{.CLI_ARGS}} ]'
+        msg: "You must change to '{{.CLI_ARGS}}' to run this task."
+    cmds:
+      - rm -rf temp-utils
+      - git clone git@github.com:bth-csharp/utils.git temp-utils  > /dev/null 2>&1
+      - cp -r temp-utils/tests/{{.CLI_ARGS}}/*.Tests {{.CLI_ARGS}}/.
+      - cp -r temp-utils/tests/{{.CLI_ARGS}}/*.yml {{.ROOT_DIR}}/.github/workflows/.
+      - rm -rf temp-utils
+      - echo "'{{.CLI_ARGS}}' tests downloaded successfully."
+
+  download-taskfile:
+    desc: "Downloads the Taskfile from the template repository. Run with 'task download-taskfile'"
+    cmds:
+      - rm -rf .tmp-template
+      - git clone --depth 1 git@github.com:bth-csharp/csharp-abcd25.git .tmp-template > /dev/null 2>&1
+      - cp .tmp-template/Taskfile.yml {{.ROOT_DIR}}/.
+      - rm -rf .tmp-template
+      - echo "Taskfile downloaded successfully."
+  
+  download-lab:
+    desc: "Get lab. Run with 'task download-lab -- lab1'"
+    dir: "{{.USER_WORKING_DIR}}"
+    vars:
+      SRC: 'kmom04/{{.CLI_ARGS}}'
+    preconditions:
+      - sh: '[[ "$PWD" == */{{.CLI_ARGS}} ]]'
+        msg: "You need to do 'dotnet new console -n {{.CLI_ARGS}}' and then 'cd {{.CLI_ARGS}}' to run this task."
+    cmds:
+      - rm -rf temp-utils
+      - git clone git@github.com:bth-csharp/utils.git temp-utils  > /dev/null 2>&1
+      - echo "Kopierar filerna från {{.CLI_ARGS}}"
+      - rsync -av --exclude='*Solution.cs' temp-utils/codeExamples/{{.SRC}}/* .
+      - rm -rf temp-utils
+
+  download-lab-solution:
+    desc: "Get lab. Run with 'task download-lab-solution -- lab1'"
+    dir: "{{.USER_WORKING_DIR}}"
+    vars:
+      SRC: 'kmom04/{{.CLI_ARGS}}'
+    preconditions:
+      - sh: '[[ "$PWD" == */{{.CLI_ARGS}} ]]'
+        msg: "You need to do 'dotnet new console -n {{.CLI_ARGS}}' and then 'cd {{.CLI_ARGS}}' to run this task."
+    cmds:
+      - rm -rf temp-utils
+      - git clone git@github.com:bth-csharp/utils.git temp-utils  > /dev/null 2>&1
+      - echo "Kopierar filerna från {{.CLI_ARGS}}"
+      - rsync -av temp-utils/codeExamples/{{.SRC}}/*Solution.* .
+      - rm -rf temp-utils
+
+  download-workflow:
+    desc: "Downloads workflow files from the template repository. Run with 'task download-workflow'"
+    cmds:
+      - rm -rf .tmp-template
+      - git clone --depth 1 git@github.com:bth-csharp/csharp-abcd25.git .tmp-template > /dev/null 2>&1
+      - cp .tmp-template/.github/workflows/main.yml {{.ROOT_DIR}}/.github/workflows/.
+      - rm -rf .tmp-template
+      - echo "Workflow file downloaded successfully."
+
+  download-code:
+    desc: "Get code example, e.g. kmom02/OoGuide. Run with 'task download-code -- kmom02/OoGuide'"
+    vars:
+      SRC: '{{.CLI_ARGS}}'
+      DEST_DIR: '{{dir .SRC}}/codeExamples'
+      DEST: '{{.DEST_DIR}}/{{base .SRC}}'
+    cmds:
+      - rm -rf temp-utils
+      - git clone git@github.com:bth-csharp/utils.git temp-utils  > /dev/null 2>&1
+      - echo "Kopierar {{.SRC}} till {{.DEST}}"
+      - mkdir -p {{.DEST_DIR}}
+      - rsync -a --delete temp-utils/codeExamples/{{.SRC}} {{.ROOT_DIR}}/{{.DEST_DIR}}
+      - rm -rf temp-utils

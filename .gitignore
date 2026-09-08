@@ -1,0 +1,13 @@
+# csharp
+**/obj/
+**/bin/
+**/plantuml/
+**/toc.yaml
+**/_site/
+**/api/
+**/docs
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
