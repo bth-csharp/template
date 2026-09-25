@@ -1,0 +1,34 @@
+{
+    "github.copilot.enable": {
+    "*": false
+    },
+    "editor.inlineSuggest.enabled": false,
+    "editor.suggest.showWords": true,
+    "editor.suggestSelection": "recentlyUsedByPrefix",
+    "extensions.ignoreRecommendations": false,
+    "chat.agent.enabled": false,
+    "chat.commandCenter.enabled": false,
+    "inlineChat.accessibleDiffView": "off",
+    "terminal.integrated.initialHint": false,
+    "peacock.color": "#4B8BBE",
+    "peacock.remoteColor": "#4B8BBE",
+    "workbench.colorCustomizations": {
+        "activityBar.activeBackground": "#70a3cc",
+        "activityBar.background": "#70a3cc",
+        "activityBar.foreground": "#15202b",
+        "activityBar.inactiveForeground": "#15202b99",
+        "activityBarBadge.background": "#a43b75",
+        "activityBarBadge.foreground": "#e7e7e7",
+        "commandCenter.border": "#e7e7e799",
+        "sash.hoverBorder": "#70a3cc",
+        "statusBar.background": "#4b8bbe",
+        "statusBar.foreground": "#e7e7e7",
+        "statusBarItem.hoverBackground": "#70a3cc",
+        "statusBarItem.remoteBackground": "#4b8bbe",
+        "statusBarItem.remoteForeground": "#e7e7e7",
+        "titleBar.activeBackground": "#4b8bbe",
+        "titleBar.activeForeground": "#e7e7e7",
+        "titleBar.inactiveBackground": "#4b8bbe99",
+        "titleBar.inactiveForeground": "#e7e7e799"
+    }
+}

@@ -1,0 +1,21 @@
+{
+    "recommendations": [
+        "ms-dotnettools.csharp",    // C# Language Support (krävs av Dev Kit)
+        "ms-dotnettools.csdevkit",  // C# Dev Kit
+    ],
+    "unwantedRecommendations": [
+        "github.copilot",
+        "ms-azuretools.vscode-azure-github-copilot",
+        "github.copilot-chat",
+        "blackboxapp.blackbox",
+        "feiskyer.chatgpt-copilot",
+        "tabnine.tabnine-vscode",
+        "saoudrizwan.claude-dev",
+        "rooveterinaryinc.roo-cline",
+        "VisualStudioExptTeam.vscodeintellicode",
+        "TabNine.tabnine-vscode",
+        "openai.chatgpt",
+        "DanielSanMedium.dscodegpt",
+        "Codeium.codeium",
+    ]
+}
