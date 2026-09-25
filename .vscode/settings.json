@@ -3,6 +3,8 @@
     "*": false
     },
     "editor.inlineSuggest.enabled": false,
+    "editor.parameterHints.enabled": true,
+    "editor.quickSuggestions": true,
     "editor.suggest.showWords": true,
     "editor.suggestSelection": "recentlyUsedByPrefix",
     "extensions.ignoreRecommendations": false,
