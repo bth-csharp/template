@@ -1,4 +1,4 @@
-# csharp-abcd25
+# template
 
 Template repo för studentrepon. Används som template då studenterna skapar sina egna repon `csharp-abcd25`. Byt ut abcd25 mot din akronym.
 
