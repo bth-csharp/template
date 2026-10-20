@@ -1,9 +1,18 @@
-# template
+# Kursrepo för kursen csharp
 
-Template repo för studentrepon. Används som template då studenterna skapar sina egna repon `csharp-abcd25`. Byt ut abcd25 mot din akronym.
+Välkommen till mitt kursrepo för csharp-kursen!
 
-Studenterna jobbar i sina egna repon och främst då mot main branchen. Det är vid inlämningar som det görs PR mot inlämningsbrancherna på GitHub i det egna repot.
 
-## 🚫 Pull Requests
+## Om mig
 
-Detta repo accepterar inte pull requests. Alla ändringar görs direkt av repo-ägaren.
+_Frivilligt_
+
+Skriv gärna ett kort stycke om dig själv (eller om ditt påhittade student-alter ego), inkludera en relevant bild (bara så du lär dig att hantera bilder i Markdown).
+
+
+
+## Om csharp och programmering
+
+_Frivilligt_
+
+Skriv kort om du använt programmering och csharp (C#) sedan tidigare i någon omfattning och vilka förväntningar du har på kursen.
