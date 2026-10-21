@@ -222,7 +222,6 @@ tasks:
     desc: "Download all files available config files"
     cmds:
       - task: download-artifacts
-      - task: download-tests
       - task: download-taskfile
       - task: download-workflow
       - task: download-extensions
