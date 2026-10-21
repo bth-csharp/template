@@ -10,6 +10,8 @@ vars:
   ARTIFACT_REPO_FILES: https://raw.githubusercontent.com/{{.ORG_NAME}}/template/refs/heads/main/
   ARTIFACT_TMP_FILES: /tmp/tmp-artifacts
   ARTIFACT_REPO: https://github.com/{{.ORG_NAME}}/template
+  UTILS_REPO: https://github.com/{{.ORG_NAME}}/utils
+  UTILS_TMP_FILES: /tmp/tmp-utils
 
 tasks:
 
@@ -18,7 +20,7 @@ tasks:
     cmds:
       - mkdir -p kmom01/practice kmom02/practice kmom03/practice kmom04/practice kmom05/practice kmom06/practice kmom10
       - echo "Source directories created successfully. PS empty directories are not shown with 'git status'."
-      - tree -d src
+      - tree -d kmom*
 
   download-artifacts:
     desc: "Downloads the artifacts repo to /tmp/tmp-artifacts"
@@ -33,8 +35,24 @@ tasks:
     cmds:
       - rm -rf {{.ARTIFACT_TMP_FILES}}
 
+  download-utils:
+    desc: "Downloads the utils repo to /tmp/tmp-utils"
+    internal: true
+    cmds:
+      - task: clear-utils
+      - git clone --quiet {{.UTILS_REPO}}.git {{.UTILS_TMP_FILES}}
+
+  clear-utils:
+    desc: "Removes /tmp/tmp-utils, used to clear the utils repo"
+    internal: true
+    cmds:
+      - rm -rf {{.UTILS_TMP_FILES}}
+
   download-tests:
-    desc: "Get tests for each kmom. Run with 'task download-tests'"
+    desc: "Get tests for each kmom. Run with 'task download-tests -- kmom01'"
+    preconditions:
+      - sh: '[ "$(pwd)" != */{{.CLI_ARGS}} ]'
+        msg: "You must change to '{{.CLI_ARGS}}' to run this task."
     cmds:
       - task: download-artifacts
       - cp -af {{.ARTIFACT_TMP_FILES}}/tests/{{.CLI_ARGS}}/*.Tests {{.CLI_ARGS}}/.
@@ -48,7 +66,7 @@ tasks:
       - echo "Taskfile downloaded successfully."
   
   download-lab:
-    desc: "Get lab. Run with 'task download-lab -- lab1'"
+    desc: "Download a lab. Run with 'task download-lab -- lab1'"
     dir: "{{.USER_WORKING_DIR}}"
     vars:
       SRC: 'kmom04/{{.CLI_ARGS}}'
@@ -56,11 +74,8 @@ tasks:
       - sh: '[[ "$PWD" == */{{.CLI_ARGS}} ]]'
         msg: "You need to do 'dotnet new console -n {{.CLI_ARGS}}' and then 'cd {{.CLI_ARGS}}' to run this task."
     cmds:
-      - rm -rf temp-utils
-      - git clone git@github.com:bth-csharp/utils.git temp-utils  > /dev/null 2>&1
-      - echo "Kopierar filerna från {{.CLI_ARGS}}"
-      - rsync -av --exclude='*Solution.cs' temp-utils/codeExamples/{{.SRC}}/* .
-      - rm -rf temp-utils
+      - curl -s -L -o {{.UTILS_REPO}}/codeExamples/{{.SRC}} {{.ROOT_DIR}}/{{.DEST_DIR}}
+      - echo "Downloaded lab {{.SRC}} successfully."
 
   download-lab-solution:
     desc: "Get lab. Run with 'task download-lab-solution -- lab1'"
@@ -71,11 +86,8 @@ tasks:
       - sh: '[[ "$PWD" == */{{.CLI_ARGS}} ]]'
         msg: "You need to do 'dotnet new console -n {{.CLI_ARGS}}' and then 'cd {{.CLI_ARGS}}' to run this task."
     cmds:
-      - rm -rf temp-utils
-      - git clone git@github.com:bth-csharp/utils.git temp-utils  > /dev/null 2>&1
-      - echo "Kopierar filerna från {{.CLI_ARGS}}"
-      - rsync -av temp-utils/codeExamples/{{.SRC}}/*Solution.* .
-      - rm -rf temp-utils
+      - curl -s -L -o {{.UTILS_REPO}}/codeExamples/{{.SRC}} {{.ROOT_DIR}}/{{.DEST_DIR}}
+      - echo "Downloaded lab {{.SRC}} solutions successfully."
 
   download-workflow:
     desc: "Download workflows file that checks code at pull request."
@@ -92,12 +104,11 @@ tasks:
       DEST_DIR: '{{dir .SRC}}/codeExamples'
       DEST: '{{.DEST_DIR}}/{{base .SRC}}'
     cmds:
-      - rm -rf temp-utils
-      - git clone git@github.com:bth-csharp/utils.git temp-utils  > /dev/null 2>&1
-      - echo "Kopierar {{.SRC}} till {{.DEST}}"
       - mkdir -p {{.DEST_DIR}}
-      - rsync -a --delete temp-utils/codeExamples/{{.SRC}} {{.ROOT_DIR}}/{{.DEST_DIR}}
-      - rm -rf temp-utils
+      - task: download-utils
+      - cp -af {{.UTILS_TMP_FILES}}/codeExamples/{{.SRC}} {{.ROOT_DIR}}/{{.DEST_DIR}}/.
+      - task: clear-utils
+      - echo "Downloaded code example {{.SRC}} successfully."
 
   download-extensions:
     desc: "Download file with recommended extensions."
@@ -212,7 +223,6 @@ tasks:
     cmds:
       - task: download-artifacts
       - task: download-tests
-      - task: download-ruff-config
       - task: download-taskfile
       - task: download-workflow
       - task: download-extensions
@@ -346,8 +356,6 @@ tasks:
     cmds:
       - echo "Running initial setup..."
       - task: create-src-dirs
-      - task: download-tests
-      - task: download-ruff-config
       - task: download-workflow
       - task: download-extensions
       - task: download-hooks
