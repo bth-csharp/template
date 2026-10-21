@@ -1,3 +1,0 @@
-5, Testperson1, 103, 15
-3, Testperson2, 108, 25
-3, Testperson3, 103, 16
