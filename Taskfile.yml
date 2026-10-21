@@ -50,13 +50,10 @@ tasks:
 
   download-tests:
     desc: "Get tests for each kmom. Run with 'task download-tests -- kmom01'"
-    preconditions:
-      - sh: '[ "$(pwd)" != */{{.CLI_ARGS}} ]'
-        msg: "You must change to '{{.CLI_ARGS}}' to run this task."
     cmds:
-      - task: download-artifacts
-      - cp -af {{.ARTIFACT_TMP_FILES}}/tests/{{.CLI_ARGS}}/*.Tests {{.CLI_ARGS}}/.
-      - task: clear-artifacts
+      - task: download-utils
+      - cp -af {{.UTILS_TMP_FILES}}/tests/{{.CLI_ARGS}}/*.Tests {{.CLI_ARGS}}/.
+      - task: clear-utils
       - echo "'{{.CLI_ARGS}}' tests downloaded successfully."
 
   download-taskfile:
