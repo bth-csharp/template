@@ -201,7 +201,6 @@ tasks:
         else
           [ -f .git/hooks/pre-push ] && echo "✅ .git/hooks/pre-push file found!" || { echo "❌ Error: .git/hooks/pre-push file not found!"; ERRORS=$((ERRORS + 1)); }
         fi
-        [ -d tests ] && echo "✅ tests directory found!" || { echo "❌ Error: tests directory not found!"; ERRORS=$((ERRORS + 1)); }
         [ -f .editorconfig ] && echo "✅ .editorconfig file found!" || { echo "❌ Error: .editorconfig file not found!"; ERRORS=$((ERRORS + 1)); }
 
         # ── Summary ────────────────────────────────────────────────────────────
