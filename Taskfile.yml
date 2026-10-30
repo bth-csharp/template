@@ -15,7 +15,7 @@ vars:
 
 tasks:
 
-  create-src-dirs:
+  create-dirs:
     desc: "Creates the src directory structure if they do not exist"
     cmds:
       - mkdir -p kmom01/practice kmom02/practice kmom03/practice kmom04/practice kmom05/practice kmom06/practice kmom10
@@ -350,7 +350,7 @@ tasks:
     desc: "Initial setup - run all configuration downloads"
     cmds:
       - echo "Running initial setup..."
-      - task: create-src-dirs
+      - task: create-dirs
       - task: download-workflow
       - task: download-extensions
       - task: download-hooks
