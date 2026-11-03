@@ -323,6 +323,21 @@ tasks:
           echo "✅ Submission tag found: $TAG"
         fi
 
+        # ── Git history ────────────────────────────────────────────────────────
+        echo ""
+        echo "7 days Git history for $KMOM ..."
+        COMMITS=$(git rev-list --count --since="7 days ago" HEAD)
+        echo "Number of commits:  $COMMITS (recommended more than 3-5 commits per task)"
+        echo ""
+        git log \
+          --since="7 days ago" \
+          --date=short \
+          --pretty=format:"%ad | %s"
+        echo ""
+        echo "✅ Tip:"
+        echo "Try to make small commits whenever you complete a task."
+        echo "This provides a clear development history and makes it easier to locate errors."
+
         # ── Tests ──────────────────────────────────────────────────────────────
         echo ""
         echo "Running tests for $KMOM ..."
