@@ -71,7 +71,10 @@ tasks:
       - sh: '[[ "$PWD" == */{{.CLI_ARGS}} ]]'
         msg: "You need to do 'dotnet new console -n {{.CLI_ARGS}}' and then 'cd {{.CLI_ARGS}}' to run this task."
     cmds:
-      - curl -s -L -o {{.UTILS_REPO}}/codeExamples/{{.SRC}} {{.ROOT_DIR}}/{{.DEST_DIR}}
+      - task: download-utils
+      - cp -af {{.UTILS_TMP_FILES}}/codeExamples/{{.SRC}}/* .
+      - rm Solution.cs
+      - task: clear-utils
       - echo "Downloaded lab {{.SRC}} successfully."
 
   download-lab-solution:
@@ -83,7 +86,9 @@ tasks:
       - sh: '[[ "$PWD" == */{{.CLI_ARGS}} ]]'
         msg: "You need to do 'dotnet new console -n {{.CLI_ARGS}}' and then 'cd {{.CLI_ARGS}}' to run this task."
     cmds:
-      - curl -s -L -o {{.UTILS_REPO}}/codeExamples/{{.SRC}} {{.ROOT_DIR}}/{{.DEST_DIR}}
+      - task: download-utils
+      - cp -af {{.UTILS_TMP_FILES}}/codeExamples/{{.SRC}}/Solution* .
+      - task: clear-utils
       - echo "Downloaded lab {{.SRC}} solutions successfully."
 
   download-workflow:
