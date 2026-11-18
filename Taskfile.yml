@@ -108,7 +108,7 @@ tasks:
     cmds:
       - mkdir -p {{.DEST_DIR}}
       - task: download-utils
-      - cp -af {{.UTILS_TMP_FILES}}/codeExamples/{{.SRC}} {{.ROOT_DIR}}/{{.DEST_DIR}}/.
+      - cp -af "{{.UTILS_TMP_FILES}}/codeExamples/{{.SRC}}" "{{.ROOT_DIR}}/{{.DEST_DIR}}/."
       - task: clear-utils
       - echo "Downloaded code example {{.SRC}} successfully."
 
